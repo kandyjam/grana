@@ -1,0 +1,23 @@
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /console
+  datasource:
+    url: "jdbc:h2:mem:~/development"
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+        type: trace
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false # http://lewandowski.io/2016/02/formatting-java-time-with-spring-boot-using-json/
+
+logging:
+  level:
+    org:
+      hibernate:
+        type: TRACE # SQL parameters are logged as well.

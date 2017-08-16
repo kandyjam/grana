@@ -12,6 +12,10 @@ spring:
         use_sql_comments: true
         format_sql: true
         type: trace
+      javax:
+        persistence:
+          validation:
+            mode: none # https://stackoverflow.com/questions/26764532/how-to-disable-hibernate-validation-in-a-spring-boot-project
   jackson:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false # http://lewandowski.io/2016/02/formatting-java-time-with-spring-boot-using-json/

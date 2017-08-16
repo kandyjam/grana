@@ -1,6 +1,7 @@
 package hu.papai.grana.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import hu.papai.grana.validation.Dictionary;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -15,12 +16,15 @@ public class Fabric extends AbstractEntity {
     private Integer itemNumber;
 
     @NotNull
+    @Dictionary(DictionaryKey.MANUFACTURER)
     private String manufacturer;
 
     @NotNull
-    private Integer size;
+    @Dictionary(DictionaryKey.SIZE)
+    private String size;
 
     @NotNull
+    @Dictionary(DictionaryKey.POSITION)
     private String position;
 
     @JsonIgnore
@@ -43,11 +47,11 @@ public class Fabric extends AbstractEntity {
         this.manufacturer = manufacturer;
     }
 
-    public Integer getSize() {
+    public String getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
+    public void setSize(String size) {
         this.size = size;
     }
 

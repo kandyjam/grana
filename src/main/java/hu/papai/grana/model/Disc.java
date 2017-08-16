@@ -1,6 +1,11 @@
 package hu.papai.grana.model;
 
-import javax.persistence.*;
+import hu.papai.grana.validation.Dictionary;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -23,7 +28,8 @@ public class Disc extends AbstractEntity {
     private Integer uniqueNumber;
 
     @NotNull
-    private Integer ratedDiameter;
+    @Dictionary(DictionaryKey.RATED_DIAMETER)
+    private String ratedDiameter;
 
     @NotNull
     private LocalDate measurementDate;
@@ -31,7 +37,11 @@ public class Disc extends AbstractEntity {
     /**
      * Four numbers followed by a dash followed by six numbers.
      */
-    @Pattern(regexp = "^[0-9]{4}-[0-9]{6}$")
+    @NotNull
+    @Pattern(
+        regexp = "^[0-9]{4}-[0-9]{6}$",
+        message = "Format must follow 4 digits followed by a dash followed by 6 digits."
+    )
     private String productionNumber;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -47,11 +57,11 @@ public class Disc extends AbstractEntity {
         this.uniqueNumber = uniqueNumber;
     }
 
-    public Integer getRatedDiameter() {
+    public String getRatedDiameter() {
         return ratedDiameter;
     }
 
-    public void setRatedDiameter(Integer ratedDiameter) {
+    public void setRatedDiameter(String ratedDiameter) {
         this.ratedDiameter = ratedDiameter;
     }
 

@@ -1,13 +1,12 @@
 package hu.papai.grana.model;
 
 import hu.papai.grana.validation.Dictionary;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
@@ -22,8 +21,7 @@ public class Disc extends AbstractEntity {
      * be difficult to determine which record was lastly inserted. Consult about it.
      */
     @NotNull
-    @Min(1_000)
-    @Max(10_000)
+    @Range(min = 1_000, max = 10_000)
     @Column(unique = true)
     private Integer uniqueNumber;
 

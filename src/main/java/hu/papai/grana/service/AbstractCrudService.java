@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.access.annotation.Secured;
 
 import java.io.Serializable;
 import java.util.List;
@@ -41,26 +42,32 @@ public abstract class AbstractCrudService<
         return repository.count();
     }
 
+    @Secured("ROLE_ADMIN")
     public void delete(ID id) {
         repository.delete(id);
     }
 
+    @Secured("ROLE_ADMIN")
     public void delete(T entity) {
         repository.delete(entity);
     }
 
+    @Secured("ROLE_ADMIN")
     public void delete(Iterable<? extends T> entities) {
         repository.delete(entities);
     }
 
+    @Secured("ROLE_ADMIN")
     public void deleteAll() {
         repository.deleteAll();
     }
 
+    @Secured("ROLE_MANAGER")
     public T save(T entity) {
         return repository.save(entity);
     }
 
+    @Secured("ROLE_MANAGER")
     public List<T> save(Iterable<T> entities) {
         return repository.save(entities);
     }

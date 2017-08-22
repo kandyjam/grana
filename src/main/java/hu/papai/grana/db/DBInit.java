@@ -1,9 +1,14 @@
 package hu.papai.grana.db;
 
 import hu.papai.grana.model.*;
+import hu.papai.grana.model.security.AuthorityName;
+import hu.papai.grana.model.security.GranaAuthority;
+import hu.papai.grana.model.security.GranaUser;
 import hu.papai.grana.repository.DictionaryCodomainRepository;
 import hu.papai.grana.repository.ManufactureRepository;
+import hu.papai.grana.repository.GranaUserRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -16,14 +21,21 @@ public class DBInit implements CommandLineRunner {
 
     private final DictionaryCodomainRepository dictionaryCodomainRepository;
 
-    public DBInit(ManufactureRepository manufactureRepository, DictionaryCodomainRepository dictionaryCodomainRepository) {
+    private final GranaUserRepository granaUserRepository;
+
+    private final PasswordEncoder passwordEncoder;
+
+    public DBInit(ManufactureRepository manufactureRepository, DictionaryCodomainRepository dictionaryCodomainRepository, GranaUserRepository granaUserRepository, PasswordEncoder passwordEncoder) {
         this.manufactureRepository = manufactureRepository;
         this.dictionaryCodomainRepository = dictionaryCodomainRepository;
+        this.granaUserRepository = granaUserRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void run(String... args) throws Exception {
 
+        addUsers();
         addDictionaryValues();
 
         Disc disc1 = new Disc();
@@ -73,6 +85,38 @@ public class DBInit implements CommandLineRunner {
 
         manufactureRepository.save(manufacture1);
         manufactureRepository.save(manufacture2);
+    }
+
+    private void addUsers() {
+
+        String password = passwordEncoder.encode("password");
+
+        GranaUser admin = new GranaUser();
+        admin.setUsername("admin");
+        admin.setPassword(password);
+
+        GranaUser manager = new GranaUser();
+        manager.setUsername("manager");
+        manager.setPassword(password);
+
+        GranaUser user = new GranaUser();
+        user.setUsername("user");
+        user.setPassword(password);
+
+        GranaAuthority adminAuth = new GranaAuthority();
+        adminAuth.setName(AuthorityName.ROLE_ADMIN);
+
+        GranaAuthority managerAuth = new GranaAuthority();
+        managerAuth.setName(AuthorityName.ROLE_MANAGER);
+
+        GranaAuthority userAuth = new GranaAuthority();
+        userAuth.setName(AuthorityName.ROLE_USER);
+
+        admin.getAuthorities().addAll(Arrays.asList(adminAuth, managerAuth, userAuth));
+        manager.getAuthorities().addAll(Arrays.asList(managerAuth, userAuth));
+        user.getAuthorities().add(userAuth);
+
+        granaUserRepository.save(Arrays.asList(admin, manager, user));
     }
 
     private void addDictionaryValues() {

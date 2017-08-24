@@ -3,15 +3,14 @@ package hu.papai.grana.model;
 import hu.papai.grana.validation.Dictionary;
 import org.hibernate.validator.constraints.Range;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Disc extends AbstractEntity {
@@ -21,7 +20,7 @@ public class Disc extends AbstractEntity {
      * be difficult to determine which record was lastly inserted. Consult about it.
      */
     @NotNull
-    @Range(min = 1_000, max = 10_000)
+    @Range(min = 1_000, max = 99_999)
     @Column(unique = true)
     private Integer uniqueNumber;
 
@@ -46,6 +45,29 @@ public class Disc extends AbstractEntity {
     private Collection<Fabric> fabrics = new ArrayList<>();
 
     private String comment;
+
+    @NotNull
+    @Dictionary(DictionaryKey.TESTER_NAME)
+    private String testerName;
+
+    @NotNull
+    @Dictionary(DictionaryKey.MACHINE_TYPE)
+    private String machineType;
+
+    @NotNull
+    @Dictionary(DictionaryKey.TEST_TYPE)
+    private String testType;
+
+    @NotNull
+    @Dictionary(DictionaryKey.TEST_MATERIAL_QUALITY)
+    private String testMaterialQuality;
+
+    @NotNull
+    @Dictionary(DictionaryKey.DISC_SIZE)
+    private String size;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "disc")
+    private Set<DiscTest> tests = new HashSet<>();
 
     public Integer getUniqueNumber() {
         return uniqueNumber;
@@ -95,15 +117,51 @@ public class Disc extends AbstractEntity {
         this.comment = comment;
     }
 
-    @Override
-    public String toString() {
-        return "Disc{" +
-        "uniqueNumber=" + uniqueNumber +
-        ", ratedDiameter=" + ratedDiameter +
-        ", measurementDate=" + measurementDate +
-        ", productionNumber='" + productionNumber + '\'' +
-        ", fabrics=" + fabrics +
-        ", comment='" + comment + '\'' +
-        "} " + super.toString();
+    public String getTesterName() {
+        return testerName;
+    }
+
+    public void setTesterName(String testerName) {
+        this.testerName = testerName;
+    }
+
+    public String getMachineType() {
+        return machineType;
+    }
+
+    public void setMachineType(String machineType) {
+        this.machineType = machineType;
+    }
+
+    public String getTestType() {
+        return testType;
+    }
+
+    public void setTestType(String testType) {
+        this.testType = testType;
+    }
+
+    public String getTestMaterialQuality() {
+        return testMaterialQuality;
+    }
+
+    public void setTestMaterialQuality(String testMaterialQuality) {
+        this.testMaterialQuality = testMaterialQuality;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public Set<DiscTest> getTests() {
+        return tests;
+    }
+
+    public void setTests(Set<DiscTest> tests) {
+        this.tests = tests;
     }
 }

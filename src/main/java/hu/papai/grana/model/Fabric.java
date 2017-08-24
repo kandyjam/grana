@@ -20,7 +20,7 @@ public class Fabric extends AbstractEntity {
     private String manufacturer;
 
     @NotNull
-    @Dictionary(DictionaryKey.SIZE)
+    @Dictionary(DictionaryKey.FABRIC_SIZE)
     private String size;
 
     @NotNull

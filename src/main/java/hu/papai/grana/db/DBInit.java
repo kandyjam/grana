@@ -131,13 +131,34 @@ public class DBInit implements CommandLineRunner {
         manufacturer.setValues(new HashSet<>(Arrays.asList("Tevesa", "Virtex", "La Nouva", "Runbao")));
 
         DictionaryCodomain size = new DictionaryCodomain();
-        size.setKey(DictionaryKey.SIZE);
+        size.setKey(DictionaryKey.FABRIC_SIZE);
         size.setValues(new HashSet<>(Arrays.asList("114", "124", "178", "228", "299", "445")));
 
         DictionaryCodomain position = new DictionaryCodomain();
         position.setKey(DictionaryKey.POSITION);
         position.setValues(new HashSet<>(Arrays.asList("alsó", "felső", "belső1", "belső2", "belső3")));
 
-        dictionaryCodomainRepository.save(Arrays.asList(diameter, manufacturer, size, position));
+        DictionaryCodomain testers = new DictionaryCodomain();
+        testers.setKey(DictionaryKey.TESTER_NAME);
+        testers.setValues(new HashSet<>(Arrays.asList("Cégény Zoltán", "Székely Ádám")));
+
+        DictionaryCodomain machines = new DictionaryCodomain();
+        machines.setKey(DictionaryKey.MACHINE_TYPE);
+        machines.setValues(new HashSet<>(Arrays.asList("Berner", "DeWalt", "Ackermann 180", "Flex")));
+
+        DictionaryCodomain testTypes = new DictionaryCodomain();
+        testTypes.setKey(DictionaryKey.TEST_TYPE);
+        testTypes.setValues(new HashSet<>(Arrays.asList("Kézi", "Automata")));
+
+        DictionaryCodomain testMaterialQualities = new DictionaryCodomain();
+        testMaterialQualities.setKey(DictionaryKey.TEST_MATERIAL_QUALITY);
+        testMaterialQualities.setValues(new HashSet<>(
+            Arrays.asList(  "Szerkezeti acél", "Laposvas zártszelvény 25x25x3", "Kroma kör 16",
+                            "Alumínium kör 15", "Laposvas téglalap 40x10")
+        ));
+
+        dictionaryCodomainRepository.save(
+            Arrays.asList(
+                diameter, manufacturer, size, position, testers, machines, testTypes, testMaterialQualities));
     }
 }

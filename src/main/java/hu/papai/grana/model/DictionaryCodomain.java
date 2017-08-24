@@ -1,7 +1,8 @@
 package hu.papai.grana.model;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class DictionaryCodomain extends AbstractEntity {
@@ -11,7 +12,7 @@ public class DictionaryCodomain extends AbstractEntity {
     private DictionaryKey key;
 
     @ElementCollection
-    private Collection<String> values;
+    private Set<String> values = new HashSet<>();
 
     public DictionaryKey getKey() {
         return key;
@@ -21,11 +22,11 @@ public class DictionaryCodomain extends AbstractEntity {
         this.key = key;
     }
 
-    public Collection<String> getValues() {
+    public Set<String> getValues() {
         return values;
     }
 
-    public void setValues(Collection<String> values) {
+    public void setValues(Set<String> values) {
         this.values = values;
     }
 

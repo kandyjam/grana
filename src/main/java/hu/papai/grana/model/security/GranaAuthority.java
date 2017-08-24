@@ -3,8 +3,6 @@ package hu.papai.grana.model.security;
 import hu.papai.grana.model.AbstractEntity;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.ManyToMany;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,17 +10,16 @@ import java.util.Collection;
 @Entity
 public class GranaAuthority extends AbstractEntity {
 
-    @Enumerated(EnumType.STRING)
-    private AuthorityName name;
+    private String name;
 
     @ManyToMany(mappedBy = "authorities")
     private Collection<GranaUser> users = new ArrayList<>();
 
-    public AuthorityName getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(AuthorityName name) {
+    public void setName(String name) {
         this.name = name;
     }
 

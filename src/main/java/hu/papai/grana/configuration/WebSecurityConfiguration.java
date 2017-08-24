@@ -42,8 +42,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             "/", "/*.html", "/favicon.ico",
                 "/**/*.html", "/**/*.css", "/**/*.js").permitAll()
             .antMatchers("/console/**").permitAll()
-            .anyRequest().authenticated()
-            .anyRequest().hasRole("USER") // Role is a special authority which starts with the 'ROLE_' prefix
+//            .anyRequest().authenticated() // every user needs some role
+//            .anyRequest().hasRole("ANONYMOUS") // Role is a special authority which starts with the 'ROLE_' prefix
 
             .and()
             .addFilter(new JWTAuthenticationFilter(authenticationManager()))

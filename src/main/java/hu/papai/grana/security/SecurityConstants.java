@@ -1,6 +1,6 @@
 package hu.papai.grana.security;
 
-class SecurityConstants {
+final class SecurityConstants {
 
     private SecurityConstants() {
         throw new IllegalStateException("Utility class.");

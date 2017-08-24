@@ -1,7 +1,7 @@
 package hu.papai.grana.db;
 
 import hu.papai.grana.model.*;
-import hu.papai.grana.model.security.AuthorityName;
+import hu.papai.grana.model.security.AuthorityConstants;
 import hu.papai.grana.model.security.GranaAuthority;
 import hu.papai.grana.model.security.GranaUser;
 import hu.papai.grana.repository.DictionaryCodomainRepository;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.HashSet;
 
 @Component
 public class DBInit implements CommandLineRunner {
@@ -100,21 +101,21 @@ public class DBInit implements CommandLineRunner {
         manager.setPassword(password);
 
         GranaUser user = new GranaUser();
-        user.setUsername("user");
+        user.setUsername("operator");
         user.setPassword(password);
 
         GranaAuthority adminAuth = new GranaAuthority();
-        adminAuth.setName(AuthorityName.ROLE_ADMIN);
+        adminAuth.setName(AuthorityConstants.ROLE_ADMIN);
 
         GranaAuthority managerAuth = new GranaAuthority();
-        managerAuth.setName(AuthorityName.ROLE_MANAGER);
+        managerAuth.setName(AuthorityConstants.ROLE_MANAGER);
 
-        GranaAuthority userAuth = new GranaAuthority();
-        userAuth.setName(AuthorityName.ROLE_USER);
+        GranaAuthority operatorAuth = new GranaAuthority();
+        operatorAuth.setName(AuthorityConstants.ROLE_OPERATOR);
 
-        admin.getAuthorities().addAll(Arrays.asList(adminAuth, managerAuth, userAuth));
-        manager.getAuthorities().addAll(Arrays.asList(managerAuth, userAuth));
-        user.getAuthorities().add(userAuth);
+        admin.getAuthorities().addAll(Arrays.asList(adminAuth, managerAuth, operatorAuth));
+        manager.getAuthorities().addAll(Arrays.asList(managerAuth, operatorAuth));
+        user.getAuthorities().add(operatorAuth);
 
         granaUserRepository.save(Arrays.asList(admin, manager, user));
     }
@@ -123,19 +124,19 @@ public class DBInit implements CommandLineRunner {
 
         DictionaryCodomain diameter = new DictionaryCodomain();
         diameter.setKey(DictionaryKey.RATED_DIAMETER);
-        diameter.setValues(Arrays.asList("115", "125", "180", "230", "320", "450"));
+        diameter.setValues(new HashSet<>(Arrays.asList("115", "125", "180", "230", "320", "450")));
 
         DictionaryCodomain manufacturer = new DictionaryCodomain();
         manufacturer.setKey(DictionaryKey.MANUFACTURER);
-        manufacturer.setValues(Arrays.asList("Tevesa", "Virtex", "La Nouva", "Runbao"));
+        manufacturer.setValues(new HashSet<>(Arrays.asList("Tevesa", "Virtex", "La Nouva", "Runbao")));
 
         DictionaryCodomain size = new DictionaryCodomain();
         size.setKey(DictionaryKey.SIZE);
-        size.setValues(Arrays.asList("114", "124", "178", "228", "299", "445"));
+        size.setValues(new HashSet<>(Arrays.asList("114", "124", "178", "228", "299", "445")));
 
         DictionaryCodomain position = new DictionaryCodomain();
         position.setKey(DictionaryKey.POSITION);
-        position.setValues(Arrays.asList("alsó", "felső", "belső1", "belső2", "belső3"));
+        position.setValues(new HashSet<>(Arrays.asList("alsó", "felső", "belső1", "belső2", "belső3")));
 
         dictionaryCodomainRepository.save(Arrays.asList(diameter, manufacturer, size, position));
     }

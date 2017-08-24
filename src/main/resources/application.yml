@@ -23,5 +23,7 @@ spring:
 logging:
   level:
     org:
+#       springframework: this is for authorization debugging
+#         security: TRACE
       hibernate:
         type: TRACE # SQL parameters are logged as well.

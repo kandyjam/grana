@@ -1,13 +1,14 @@
 package hu.papai.grana.service;
 
 import hu.papai.grana.controller.util.CreateUserRequestDto;
+import hu.papai.grana.model.security.AuthorityConstants;
 import hu.papai.grana.model.security.GranaUser;
 import hu.papai.grana.repository.GranaUserRepository;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Secured("ROLE_ADMIN")
+@Secured(AuthorityConstants.ROLE_ADMIN)
 @Service
 public class GranaUserService {
 

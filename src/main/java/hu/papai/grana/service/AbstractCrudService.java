@@ -1,6 +1,7 @@
 package hu.papai.grana.service;
 
 import hu.papai.grana.model.AbstractEntity;
+import hu.papai.grana.model.security.AuthorityConstants;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -42,32 +43,32 @@ public abstract class AbstractCrudService<
         return repository.count();
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured(AuthorityConstants.ROLE_MANAGER)
     public void delete(ID id) {
         repository.delete(id);
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured(AuthorityConstants.ROLE_MANAGER)
     public void delete(T entity) {
         repository.delete(entity);
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured(AuthorityConstants.ROLE_MANAGER)
     public void delete(Iterable<? extends T> entities) {
         repository.delete(entities);
     }
 
-    @Secured("ROLE_ADMIN")
+    @Secured(AuthorityConstants.ROLE_MANAGER)
     public void deleteAll() {
         repository.deleteAll();
     }
 
-    @Secured("ROLE_MANAGER")
+    @Secured(AuthorityConstants.ROLE_OPERATOR)
     public T save(T entity) {
         return repository.save(entity);
     }
 
-    @Secured("ROLE_MANAGER")
+    @Secured(AuthorityConstants.ROLE_OPERATOR)
     public List<T> save(Iterable<T> entities) {
         return repository.save(entities);
     }

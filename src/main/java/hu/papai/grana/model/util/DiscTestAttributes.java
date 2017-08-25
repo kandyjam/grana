@@ -1,11 +1,11 @@
-package hu.papai.grana.model;
+package hu.papai.grana.model.util;
 
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-@Entity
-public class DiscTestAttributes extends AbstractEntity implements Serializable {
+@Embeddable
+public class DiscTestAttributes implements Serializable {
 
     private static final long serialVersionUID = 8267137739545664368L;
 
@@ -14,9 +14,6 @@ public class DiscTestAttributes extends AbstractEntity implements Serializable {
 
     @NotNull
     private Double mass;
-
-    @NotNull
-    private Double thickness;
 
     public Double getDiameter() {
         return diameter;
@@ -34,20 +31,11 @@ public class DiscTestAttributes extends AbstractEntity implements Serializable {
         this.mass = mass;
     }
 
-    public Double getThickness() {
-        return thickness;
-    }
-
-    public void setThickness(Double thickness) {
-        this.thickness = thickness;
-    }
-
     @Override
     public String toString() {
         return "DiscTestAttributes{" +
         "diameter=" + diameter +
         ", mass=" + mass +
-        ", thickness=" + thickness +
-        '}';
+        "} " + super.toString();
     }
 }

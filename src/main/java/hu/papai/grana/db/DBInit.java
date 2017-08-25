@@ -5,7 +5,7 @@ import hu.papai.grana.model.security.AuthorityConstants;
 import hu.papai.grana.model.security.GranaAuthority;
 import hu.papai.grana.model.security.GranaUser;
 import hu.papai.grana.repository.DictionaryCodomainRepository;
-import hu.papai.grana.repository.ManufactureRepository;
+import hu.papai.grana.repository.DiscRepository;
 import hu.papai.grana.repository.GranaUserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,26 +18,29 @@ import java.util.HashSet;
 @Component
 public class DBInit implements CommandLineRunner {
 
-    private final ManufactureRepository manufactureRepository;
-
     private final DictionaryCodomainRepository dictionaryCodomainRepository;
 
     private final GranaUserRepository granaUserRepository;
 
     private final PasswordEncoder passwordEncoder;
 
-    public DBInit(ManufactureRepository manufactureRepository, DictionaryCodomainRepository dictionaryCodomainRepository, GranaUserRepository granaUserRepository, PasswordEncoder passwordEncoder) {
-        this.manufactureRepository = manufactureRepository;
+    private final DiscRepository discRepository;
+
+    public DBInit(DictionaryCodomainRepository dictionaryCodomainRepository, GranaUserRepository granaUserRepository, PasswordEncoder passwordEncoder, DiscRepository discRepository) {
         this.dictionaryCodomainRepository = dictionaryCodomainRepository;
         this.granaUserRepository = granaUserRepository;
         this.passwordEncoder = passwordEncoder;
+        this.discRepository = discRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
-
         addUsers();
         addDictionaryValues();
+        addDiscs();
+    }
+
+    private void addDiscs() {
 
         Disc disc1 = new Disc();
         disc1.setUniqueNumber(1234);
@@ -45,6 +48,38 @@ public class DBInit implements CommandLineRunner {
         disc1.setProductionNumber("1234-567890");
         disc1.setRatedDiameter("450");
         disc1.setComment("This is a special disc.");
+
+        DiscTest discTest1 = new DiscTest();
+        discTest1.setNumber(4);
+        discTest1.getAttributesBeforeTest().setDiameter(115.04);
+        discTest1.getAttributesAfterTest().setDiameter(110.82);
+        discTest1.getAttributesBeforeTest().setMass(40.4);
+        discTest1.getAttributesAfterTest().setMass(37.3);
+        discTest1.setMinThickness(1.65);
+        discTest1.setMaxThickness(1.75);
+        discTest1.setCuttingTimes(Arrays.asList(4.73, 4.54, 4.56, 4.02, 4.38, 4.12, 4.61, 4.2, 4.73));
+
+        DiscTest discTest2 = new DiscTest();
+        discTest2.setNumber(5);
+        discTest2.getAttributesBeforeTest().setDiameter(114.95);
+        discTest2.getAttributesAfterTest().setDiameter(111.16);
+        discTest2.getAttributesBeforeTest().setMass(38.8);
+        discTest2.getAttributesAfterTest().setMass(35.8);
+        discTest2.setMinThickness(1.66);
+        discTest2.setMaxThickness(1.78);
+        discTest2.setCuttingTimes(Arrays.asList(4.28, 4.51, 4.12, 4.44, 4.23, 4.11, 4.67, 4.56));
+
+        DiscTest discTest3 = new DiscTest();
+        discTest3.setNumber(6);
+        discTest3.getAttributesBeforeTest().setDiameter(115.04);
+        discTest3.getAttributesAfterTest().setDiameter(110.88);
+        discTest3.getAttributesBeforeTest().setMass(41.9);
+        discTest3.getAttributesAfterTest().setMass(39.1);
+        discTest3.setMinThickness(1.72);
+        discTest3.setMaxThickness(1.82);
+        discTest3.setCuttingTimes(Arrays.asList(4.51, 4.82, 4.62, 5.01, 4.66, 4.82, 4.89));
+
+        disc1.getTests().addAll(Arrays.asList(discTest1, discTest2, discTest3));
 
         Disc disc2 = new Disc();
         disc2.setUniqueNumber(1235);
@@ -70,22 +105,10 @@ public class DBInit implements CommandLineRunner {
         fabric1.setManufacturer("Granit");
         fabric1.setPosition("UPPER");
         fabric1.setSize("10");
+
         disc1.getFabrics().add(fabric1);
 
-        Manufacture manufacture1 = new Manufacture();
-        manufacture1.setPlannedManufacturedPiece(10);
-        manufacture1.setPurpose("Experimenting with a new technique.");
-        manufacture1.setPlannedManufactureDate(LocalDate.now());
-        manufacture1.getDiscs().addAll(Arrays.asList(disc1, disc2));
-
-        Manufacture manufacture2 = new Manufacture();
-        manufacture2.setPlannedManufacturedPiece(250);
-        manufacture2.setPurpose("Standard quarter-year demo.");
-        manufacture2.setPlannedManufactureDate(LocalDate.of(2017, 9, 1));
-        manufacture2.getDiscs().addAll(Arrays.asList(disc3, disc4));
-
-        manufactureRepository.save(manufacture1);
-        manufactureRepository.save(manufacture2);
+        discRepository.save(Arrays.asList(disc1, disc2, disc3, disc4));
     }
 
     private void addUsers() {

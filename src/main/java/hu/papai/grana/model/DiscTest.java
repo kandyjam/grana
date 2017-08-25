@@ -1,34 +1,44 @@
 package hu.papai.grana.model;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import hu.papai.grana.model.util.DiscTestAttributes;
+
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 
+@hu.papai.grana.validation.DiscTest
 @Entity
 public class DiscTest extends AbstractEntity {
 
     @NotNull
     private Integer number;
 
-    @Valid
-    private DiscTestAttributes attributesBeforeTest;
+    @NotNull
+    private Double minThickness;
+
+    @NotNull
+    private Double maxThickness;
 
     @Valid
-    private DiscTestAttributes attributesAfterTest;
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "diameter", column = @Column(name = "diameter_before")),
+        @AttributeOverride(name = "mass", column = @Column(name = "thickness_before"))
+    })
+    private DiscTestAttributes attributesBeforeTest = new DiscTestAttributes();
+
+    @Valid
+    @Embedded
+    @AttributeOverrides({
+        @AttributeOverride(name = "diameter", column = @Column(name = "diameter_after")),
+        @AttributeOverride(name = "mass", column = @Column(name = "thickness_after"))
+    })
+    private DiscTestAttributes attributesAfterTest = new DiscTestAttributes();
 
     @ElementCollection
     private Collection<Double> cuttingTimes = new ArrayList<>();
-
-    /**
-     * Even though this relationship is not meant to be bidirectional, {@link ManyToOne} is needed, so JPA doesn't
-     * generate a join table.
-     */
-    @ManyToOne
-    private Disc disc;
 
     @Override
     public boolean equals(Object o) {
@@ -51,6 +61,22 @@ public class DiscTest extends AbstractEntity {
 
     public void setNumber(Integer number) {
         this.number = number;
+    }
+
+    public Double getMinThickness() {
+        return minThickness;
+    }
+
+    public void setMinThickness(Double minThickness) {
+        this.minThickness = minThickness;
+    }
+
+    public Double getMaxThickness() {
+        return maxThickness;
+    }
+
+    public void setMaxThickness(Double maxThickness) {
+        this.maxThickness = maxThickness;
     }
 
     public DiscTestAttributes getAttributesBeforeTest() {
@@ -77,18 +103,12 @@ public class DiscTest extends AbstractEntity {
         this.cuttingTimes = cuttingTimes;
     }
 
-    public Disc getDisc() {
-        return disc;
-    }
-
-    public void setDisc(Disc disc) {
-        this.disc = disc;
-    }
-
     @Override
     public String toString() {
         return "DiscTest{" +
         "number=" + number +
+        ", minThickness=" + minThickness +
+        ", maxThickness=" + maxThickness +
         ", attributesBeforeTest=" + attributesBeforeTest +
         ", attributesAfterTest=" + attributesAfterTest +
         ", cuttingTimes=" + cuttingTimes +

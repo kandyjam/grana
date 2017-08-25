@@ -66,7 +66,7 @@ public class Disc extends AbstractEntity {
     @Dictionary(DictionaryKey.DISC_SIZE)
     private String size;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "disc")
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<DiscTest> tests = new HashSet<>();
 
     public Integer getUniqueNumber() {

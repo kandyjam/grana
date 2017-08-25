@@ -182,7 +182,7 @@ public class DBInit implements CommandLineRunner {
 
         DictionaryCodomain discSizes = new DictionaryCodomain();
         discSizes.setKey(DictionaryKey.TEST_MATERIAL_SIZE);
-        discSizes.setValues(new HashSet<>(Arrays.asList("100x2")));
+        discSizes.setValues(new HashSet<>(Arrays.asList("100x2", "40x10", "25x25x3", "∅15", "∅16")));
 
         dictionaryCodomainRepository.save(
             Arrays.asList(

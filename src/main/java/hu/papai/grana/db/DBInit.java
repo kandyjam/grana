@@ -180,8 +180,13 @@ public class DBInit implements CommandLineRunner {
                             "Alumínium kör 15", "Laposvas téglalap 40x10")
         ));
 
+        DictionaryCodomain discSizes = new DictionaryCodomain();
+        discSizes.setKey(DictionaryKey.DISC_SIZE);
+        discSizes.setValues(new HashSet<>(Arrays.asList("100x2")));
+
         dictionaryCodomainRepository.save(
             Arrays.asList(
-                diameter, manufacturer, size, position, testers, machines, testTypes, testMaterialQualities));
+                diameter, manufacturer, size, position, testers, machines, testTypes, testMaterialQualities,
+                discSizes));
     }
 }

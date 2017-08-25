@@ -63,8 +63,8 @@ public class Disc extends AbstractEntity {
     private String testMaterialQuality;
 
     @NotNull
-    @Dictionary(DictionaryKey.DISC_SIZE)
-    private String size;
+    @Dictionary(DictionaryKey.TEST_MATERIAL_SIZE)
+    private String testMaterialSize;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<DiscTest> tests = new HashSet<>();
@@ -149,12 +149,12 @@ public class Disc extends AbstractEntity {
         this.testMaterialQuality = testMaterialQuality;
     }
 
-    public String getSize() {
-        return size;
+    public String getTestMaterialSize() {
+        return testMaterialSize;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public void setTestMaterialSize(String testMaterialSize) {
+        this.testMaterialSize = testMaterialSize;
     }
 
     public Set<DiscTest> getTests() {

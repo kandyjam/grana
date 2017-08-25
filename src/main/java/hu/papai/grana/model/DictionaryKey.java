@@ -9,5 +9,5 @@ public enum DictionaryKey {
     MACHINE_TYPE,
     TEST_TYPE,
     TEST_MATERIAL_QUALITY,
-    DISC_SIZE
+    TEST_MATERIAL_SIZE
 }

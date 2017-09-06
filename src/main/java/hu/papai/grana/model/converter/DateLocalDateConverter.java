@@ -5,6 +5,10 @@ import javax.persistence.Converter;
 import java.time.LocalDate;
 import java.sql.Date;
 
+/**
+ * This converter is responsible for mapping {@link LocalDate} to {@link Date}. This is needed, because the default
+ * serialization for {@link LocalDate} is not human-readable.
+ */
 @Converter(autoApply = true)
 public class DateLocalDateConverter implements AttributeConverter<LocalDate, Date> {
     @Override

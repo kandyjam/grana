@@ -1,9 +1,11 @@
 package hu.papai.grana.validation;
 
+import hu.papai.grana.model.StandardDiscTestResult;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class DiscTestValidator implements ConstraintValidator<DiscTest, hu.papai.grana.model.DiscTest> {
+public class DiscTestValidator implements ConstraintValidator<DiscTest, StandardDiscTestResult> {
 
     @Override
     public void initialize(DiscTest constraintAnnotation) {
@@ -11,7 +13,7 @@ public class DiscTestValidator implements ConstraintValidator<DiscTest, hu.papai
     }
 
     @Override
-    public boolean isValid(hu.papai.grana.model.DiscTest value, ConstraintValidatorContext context) {
+    public boolean isValid(StandardDiscTestResult value, ConstraintValidatorContext context) {
         return value == null || value.getMinThickness() <= value.getMaxThickness();
     }
 }

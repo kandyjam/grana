@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = DiscTestValidator.class)
 public @interface DiscTest {
 
-    String message() default "{hu.papai.grana.validation.DiscTest.message}";
+    String message() default "{hu.papai.grana.validation.StandardDiscTestResult.message}";
 
     Class<?>[] groups() default {};
 

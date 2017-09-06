@@ -10,7 +10,7 @@ import java.util.Collection;
 
 @hu.papai.grana.validation.DiscTest
 @Entity
-public class DiscTest extends AbstractEntity {
+public class StandardDiscTestResult extends AbstractEntity {
 
     @NotNull
     private Integer number;
@@ -45,9 +45,9 @@ public class DiscTest extends AbstractEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        DiscTest discTest = (DiscTest) o;
+        StandardDiscTestResult standardDiscTestResult = (StandardDiscTestResult) o;
 
-        return number.equals(discTest.number);
+        return number.equals(standardDiscTestResult.number);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class DiscTest extends AbstractEntity {
 
     @Override
     public String toString() {
-        return "DiscTest{" +
+        return "StandardDiscTestResult{" +
         "number=" + number +
         ", minThickness=" + minThickness +
         ", maxThickness=" + maxThickness +

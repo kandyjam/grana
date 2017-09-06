@@ -3,14 +3,15 @@ package hu.papai.grana.model;
 import hu.papai.grana.validation.Dictionary;
 import org.hibernate.validator.constraints.Range;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Disc extends AbstractEntity {
@@ -18,6 +19,10 @@ public class Disc extends AbstractEntity {
     /**
      * This value is supposed to be generated on creation, incremented from the previous version. It may happen to
      * be difficult to determine which record was lastly inserted. Consult about it.
+     *
+     * Ideas:
+     * * table containing the last inserted id (it's always the greatest)
+     * * using some auto_generated value like the {@link AbstractEntity} id field
      */
     @NotNull
     @Range(min = 1_000, max = 99_999)
@@ -27,6 +32,19 @@ public class Disc extends AbstractEntity {
     @NotNull
     @Dictionary(DictionaryKey.RATED_DIAMETER)
     private String ratedDiameter;
+
+    // TODO: cross-field validation with machineSide
+    @NotNull
+    @Dictionary(DictionaryKey.PRESS_MACHINE)
+    private String pressMachine;
+
+    @NotNull
+    @Dictionary(DictionaryKey.MACHINE_SIDE)
+    private String machineSide;
+
+    @NotNull
+    @Dictionary(DictionaryKey.NEST_NUMBER)
+    private String nestNumber;
 
     @NotNull
     private LocalDate measurementDate;
@@ -39,35 +57,10 @@ public class Disc extends AbstractEntity {
         regexp = "^[0-9]{4}-[0-9]{6}$",
         message = "Format must follow 4 digits followed by a dash followed by 6 digits."
     )
-    private String productionNumber;
+    private String dollopProductionNumber;
 
     @ManyToMany(cascade = CascadeType.ALL)
     private Collection<Fabric> fabrics = new ArrayList<>();
-
-    private String comment;
-
-    @NotNull
-    @Dictionary(DictionaryKey.TESTER_NAME)
-    private String testerName;
-
-    @NotNull
-    @Dictionary(DictionaryKey.MACHINE_TYPE)
-    private String machineType;
-
-    @NotNull
-    @Dictionary(DictionaryKey.TEST_TYPE)
-    private String testType;
-
-    @NotNull
-    @Dictionary(DictionaryKey.TEST_MATERIAL_QUALITY)
-    private String testMaterialQuality;
-
-    @NotNull
-    @Dictionary(DictionaryKey.TEST_MATERIAL_SIZE)
-    private String testMaterialSize;
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<DiscTest> tests = new HashSet<>();
 
     public Integer getUniqueNumber() {
         return uniqueNumber;
@@ -85,6 +78,30 @@ public class Disc extends AbstractEntity {
         this.ratedDiameter = ratedDiameter;
     }
 
+    public String getPressMachine() {
+        return pressMachine;
+    }
+
+    public void setPressMachine(String pressMachine) {
+        this.pressMachine = pressMachine;
+    }
+
+    public String getMachineSide() {
+        return machineSide;
+    }
+
+    public void setMachineSide(String machineSide) {
+        this.machineSide = machineSide;
+    }
+
+    public String getNestNumber() {
+        return nestNumber;
+    }
+
+    public void setNestNumber(String nestNumber) {
+        this.nestNumber = nestNumber;
+    }
+
     public LocalDate getMeasurementDate() {
         return measurementDate;
     }
@@ -93,12 +110,12 @@ public class Disc extends AbstractEntity {
         this.measurementDate = measurementDate;
     }
 
-    public String getProductionNumber() {
-        return productionNumber;
+    public String getDollopProductionNumber() {
+        return dollopProductionNumber;
     }
 
-    public void setProductionNumber(String productionNumber) {
-        this.productionNumber = productionNumber;
+    public void setDollopProductionNumber(String dollopProductionNumber) {
+        this.dollopProductionNumber = dollopProductionNumber;
     }
 
     public Collection<Fabric> getFabrics() {
@@ -107,61 +124,5 @@ public class Disc extends AbstractEntity {
 
     public void setFabrics(Collection<Fabric> fabrics) {
         this.fabrics = fabrics;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public String getTesterName() {
-        return testerName;
-    }
-
-    public void setTesterName(String testerName) {
-        this.testerName = testerName;
-    }
-
-    public String getMachineType() {
-        return machineType;
-    }
-
-    public void setMachineType(String machineType) {
-        this.machineType = machineType;
-    }
-
-    public String getTestType() {
-        return testType;
-    }
-
-    public void setTestType(String testType) {
-        this.testType = testType;
-    }
-
-    public String getTestMaterialQuality() {
-        return testMaterialQuality;
-    }
-
-    public void setTestMaterialQuality(String testMaterialQuality) {
-        this.testMaterialQuality = testMaterialQuality;
-    }
-
-    public String getTestMaterialSize() {
-        return testMaterialSize;
-    }
-
-    public void setTestMaterialSize(String testMaterialSize) {
-        this.testMaterialSize = testMaterialSize;
-    }
-
-    public Set<DiscTest> getTests() {
-        return tests;
-    }
-
-    public void setTests(Set<DiscTest> tests) {
-        this.tests = tests;
     }
 }
